@@ -61,6 +61,12 @@ interface ImageDao {
     @Transaction
     @Query("SELECT * FROM Image WHERE id = :imageId")
     suspend fun getById(imageId: String): Image
+
+    // Null-safe lookup: returns null when no row matches (used by tests to assert
+    // presence/absence of an image without risking a non-null cast NPE).
+    @Transaction
+    @Query("SELECT * FROM Image WHERE id = :imageId")
+    suspend fun getByIdOrNull(imageId: String): Image?
 }
 
 // Repository for image operations
